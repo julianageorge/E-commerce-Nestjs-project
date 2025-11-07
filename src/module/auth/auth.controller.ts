@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { RegisterDto } from './dto/register.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { HttpExceptionFilter } from '@common/filters';
+import { ZodValidationPipe } from '@common/pipes/validation';
+import { RegisterSchema } from './validation/schema';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  register(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.register(createAuthDto);
+  register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
   }
 
   @Get()
