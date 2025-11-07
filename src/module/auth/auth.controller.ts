@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { AuthFactoryService } from './factory';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,21 +15,11 @@ export class AuthController {
     return {message:"customer registered successfully",success:true,data:createdCustomer};
     
   }
+ @Post('/login')
+ async login(@Body() loginDto:LoginDto){
+  const token=await this.authService.login(loginDto);
+  return {message:"customer logged in successfully",success:true,data:token};
+ }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
- 
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
-  }
 }

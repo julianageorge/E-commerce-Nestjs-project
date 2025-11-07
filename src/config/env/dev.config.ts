@@ -1,3 +1,5 @@
+import { access } from "fs";
+
 export default()=>( {
     port:process.env.PORT,
     db:{
@@ -8,6 +10,9 @@ export default()=>( {
     mail:{
         user:process.env.EMAIL,
         pass:process.env.PASSWORD
+    },
+    access:{
+        jwt_secret:process.env.ACCESS_SECRET,
     }
     
 })
