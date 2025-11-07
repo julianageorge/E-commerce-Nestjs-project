@@ -1,18 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { HttpExceptionFilter } from '@common/filters';
-import { ZodValidationPipe } from '@common/pipes/validation';
-import { RegisterSchema } from './validation/schema';
+import { AuthFactoryService } from './factory';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService,private readonly authFactoryService:AuthFactoryService) {}
 
-  @Post()
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  @Post('/register')
+  async register(@Body() registerDto: RegisterDto) {
+    const customer=await this.authFactoryService.createCustomer(registerDto);
+    const createdCustomer=await this.authService.register(customer);
+    return {message:"customer registered successfully",success:true,data:createdCustomer};
+    
   }
 
   @Get()
@@ -25,10 +25,7 @@ export class AuthController {
     return this.authService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
+ 
 
   @Delete(':id')
   remove(@Param('id') id: string) {

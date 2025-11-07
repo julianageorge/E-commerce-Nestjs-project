@@ -4,6 +4,10 @@ export default()=>( {
         url:process.env.DB_URL
     },
     token:{},
-    cloud:{}
+    cloud:{},
+    mail:{
+        user:process.env.EMAIL,
+        pass:process.env.PASSWORD
+    }
     
 })

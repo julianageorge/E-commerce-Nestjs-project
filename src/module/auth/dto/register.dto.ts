@@ -17,5 +17,5 @@ export class RegisterDto{
     @Transform(({ value }) =>{
         return new Date(value)   
 })
-    dob:string;
+    dob:Date;
 }

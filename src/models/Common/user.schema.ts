@@ -5,11 +5,18 @@ import { Types } from "mongoose";
 export class User{
     readonly _id:Types.ObjectId;
     @Prop({type:String,required:true})
-    UserName:string;
+    userName:string;
     @Prop({type:String,required:true,unique:true})
     email:string;
     @Prop({type:String,required:true})
     password:string;
+    @Prop({type:String})
+    otp:string;
+    @Prop({type:Date})
+    otpExpiry:Date;
+    @Prop({type:Boolean,default:false})
+    isVerified:boolean;
+    
 
 }
 export const UserSchema=SchemaFactory.createForClass(User);
