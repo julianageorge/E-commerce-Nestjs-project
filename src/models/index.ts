@@ -5,3 +5,5 @@ export * from './admin/admin.schema';
 export * from './admin/admin.repositry';
 export * from './customer/customer.schema';
 export * from './customer/customer.repositry';
+export * from './category/category.schema';
+export * from './category/category.repositry';
