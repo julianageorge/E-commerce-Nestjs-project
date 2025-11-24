@@ -1,4 +1,4 @@
-import { Customer, CustomerRepositry } from '@models/index';
+import { Customer, CustomerRepositry, UserRepository } from '@models/index';
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { SendMail } from '../../common/helpers';
 import { LoginDto } from './dto/login.dto';
@@ -12,7 +12,8 @@ import { ConfigService } from '@nestjs/config';
 export class AuthService {
   constructor(private readonly customerRepositry:CustomerRepositry
     ,private readonly jwtService:JwtService,
-    private readonly configService:ConfigService
+    private readonly configService:ConfigService,
+    private readonly userRepositry:UserRepository
   ){}
   async register(customer:Customer) {
     const customerExist=await this.customerRepositry.getOne({email:customer.email})
@@ -26,7 +27,7 @@ export class AuthService {
   
   }
   async login(loginDto:LoginDto){
-    const customerExist=await this.customerRepositry.getOne({email:loginDto.email})
+    const customerExist=await this.userRepositry.getOne({email:loginDto.email})
     if(!customerExist){
       throw new UnauthorizedException("Invalid credentials")
     }

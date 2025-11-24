@@ -1,14 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards } from '@nestjs/common';
+import { Auth, User } from '@common/decorator';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { User } from '@common/decorator';
 import { CategoryFactoryService } from './factory';
-import { AuthGuard } from '@common/guard/auth.guard';
-
-
 @Controller('category')
-@UseGuards(AuthGuard)
+@Auth(['Admin'])
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService,private readonly categoryFactory:CategoryFactoryService) {}
 
@@ -29,9 +26,12 @@ export class CategoryController {
     return this.categoryService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryService.update(+id, updateCategoryDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto,@User()user:any) {
+   const category=await this.categoryFactory.updateCategory(id,updateCategoryDto,user);
+   const updatedCategory=await this.categoryService.update(id,category);
+   return {success:true,message:"Category updated successfully",data:{updatedCategory}};
+
   }
 
   @Delete(':id')

@@ -9,6 +9,8 @@ export class Category{
     slug:string;
     @Prop({type:SchemaTypes.ObjectId,ref:"Admin"})
     createdBy:Types.ObjectId;
+    @Prop({type:SchemaTypes.ObjectId,ref:"Admin"})
+    updatedBy:Types.ObjectId;
     logo:object;
 }
 export const CategorySchema=SchemaFactory.createForClass(Category);
