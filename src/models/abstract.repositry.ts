@@ -15,5 +15,12 @@ export class AbstractRepositry<T>{
      public UpdateOne(filter:RootFilterQuery<T>,updateQuery:UpdateQuery<T>,options?:QueryOptions<T>){
         return this.model.findOneAndUpdate(filter,updateQuery,options);
     }
+    public getAll(filter:RootFilterQuery<T>,projection?:ProjectionType<T>,options?:QueryOptions<T>,query?:any){
+       /* let limit=query.limit;
+        let skip=query.page*query.limit-1;
+        options?.limit=limit;
+        options?.skip=skip;*/
+        return this.model.find(filter,projection,options);
+    }
 
 }

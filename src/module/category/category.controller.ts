@@ -1,5 +1,5 @@
-import { Auth, User } from '@common/decorator';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Auth, Public, User } from '@common/decorator';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -17,13 +17,14 @@ export class CategoryController {
   }
 
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  async findAll(@Query() query:any) {
+    return await this.categoryService.findAll(query);
   }
-
+  @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const category= await this.categoryService.findOne(id);
+    return {success:true,message:"Category found successfully",data:{category}};
   }
 
   @Put(':id')
