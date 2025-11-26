@@ -7,14 +7,14 @@ import { ProductFactoryService } from './factory/product.factory';
 import { messages } from '@common/constant';
 
 @Controller('product')
-@Auth(['Admin','Seller','Customer'])
+@Auth(['Admin','Seller'])
 export class ProductController {
   constructor(private readonly productService: ProductService,private readonly productFactory:ProductFactoryService) {}
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto,@User() user:any) {
     const product=this.productFactory.createProduct(createProductDto,user);
-    const createdProduct= await this.productService.create(product);
+    const createdProduct= await this.productService.create(product,user);
     return {message:messages.Product.Created,success:true,data:createdProduct};
   }
 
@@ -30,11 +30,11 @@ export class ProductController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+   
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+    return this.productService.remove(id);
   }
 }
