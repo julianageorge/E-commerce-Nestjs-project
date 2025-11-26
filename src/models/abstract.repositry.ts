@@ -22,5 +22,8 @@ export class AbstractRepositry<T>{
         options?.skip=skip;*/
         return this.model.find(filter,projection,options);
     }
-
+    public DeleteOne(filter:RootFilterQuery<T>,options?:QueryOptions<T>){
+        return this.model.findOneAndDelete(filter,options);
+    }
+   
 }

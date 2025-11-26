@@ -1,4 +1,5 @@
-import { DiscountType } from "@models/index";
+
+import { DiscountType } from "@common/Types";
 import { Types } from "mongoose";
 
 export class Product {

@@ -10,6 +10,7 @@ import devConfig from './config/env/dev.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Admin, AdminSchema, Customer, CustomerSchema, Seller, SellerSchema, User, UserSchema } from './models';
 import { CustomerModule } from '@module/customer/customer.module';
+import { CouponsModule } from './module/coupons/coupons.module';
 
 @Module({
   imports: [ConfigModule.forRoot({load:[devConfig],isGlobal:true}),
@@ -17,7 +18,7 @@ import { CustomerModule } from '@module/customer/customer.module';
     useFactory:(configService:ConfigService)=>({uri:configService.get('db').url})
   }),
 
-  AuthModule, ProductModule, CategoryModule, BrandModule, CustomerModule],
+  AuthModule, ProductModule, CategoryModule, BrandModule, CustomerModule, CouponsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -2,11 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Auth, User } from '@common/decorator';
+import { Auth, Public, User } from '@common/decorator';
 import { ProductFactoryService } from './factory/product.factory';
 import { messages } from '@common/constant';
-
+import { TransformInterceptor } from '@common/interceptor';
+import { Product } from '@models/index';
+import { UseInterceptors } from '@nestjs/common';
 @Controller('product')
+@UseInterceptors(new TransformInterceptor<Product>())
 @Auth(['Admin','Seller'])
 export class ProductController {
   constructor(private readonly productService: ProductService,private readonly productFactory:ProductFactoryService) {}
@@ -24,17 +27,22 @@ export class ProductController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  @Public()
+  async findOne(@Param('id') id: string) {
+    const product= await this.productService.findOne(id);
+    return {message:"Product fetched successfully",success:true,data:product};
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto,@User() user:any) {
+    const product=this.productFactory.updateProduct(updateProductDto,user);
+    return await this.productService.update(id,product);
+    
    
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(id);
+  async remove(@Param('id') id: string) {
+    return await this.productService.remove(id);
   }
 }

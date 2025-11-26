@@ -1,4 +1,6 @@
-import { DiscountType } from "@models/index";
+
+import { IsValidDiscount } from "@common/decorator/discount.decorator";
+import { DiscountType } from "@common/Types";
 import { IsArray, IsEnum, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 import { Types } from "mongoose";
 
@@ -20,8 +22,7 @@ export class CreateProductDto {
   @IsNumber()
   @IsNotEmpty()
   price:number;
-  @IsNumber()
-  @IsNotEmpty()
+ @IsValidDiscount()
   discountAmount:number;
   @IsString()
   @IsEnum(DiscountType)

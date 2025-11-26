@@ -27,30 +27,39 @@ export class ProductService {
     return `This action returns all product`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string|Types.ObjectId) {
+   const product=await this.productRepositry.getOne({_id:id});
+   if(!product){
+    throw new NotFoundException(messages.Product.notFound);
+   }
+   return product;
   }
 
   async update(id: string | Types.ObjectId, product:Product) {
-   const productExistence=await this.productRepositry.getOne({_id:id});
+   const productExistence=await this.findOne(id);
    if(!productExistence){
     throw new NotFoundException(messages.Product.notFound);
    }
    product.stock+=productExistence.stock;
-   const colors=new Set<string>(productExistence.colors);
-   for(const color of product.colors){
-    colors.add(color);
-   }
-   product.colors=Array.from(colors);
-   const sizes=new Set<string>(productExistence.size);
-   for(const size of product.size){
-    sizes.add(size);
-   }
-   product.size=Array.from(sizes);
+   const colors=this.addToset(product.colors,productExistence.colors);
+   product.colors=colors;
+   const sizes=this.addToset(product.size,productExistence.size);
+   product.size=sizes;
    return await this.productRepositry.UpdateOne({_id:id},product,{new:true});
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} product`;
+  async remove(id: string|Types.ObjectId) {
+    const productExistence=await this.findOne(id);
+    if(!productExistence){
+     throw new NotFoundException(messages.Product.notFound);
+    }
+    return await this.productRepositry.DeleteOne({_id:id});
+  }
+  addToset(newData:string[],oldData:string[]){
+    const set=new Set<string>(oldData);
+    for(const data of newData){
+      set.add(data);
+    }
+    return Array.from(set);
   }
 }
