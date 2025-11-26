@@ -3,6 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { CategoryRepositry } from '@models/index';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class CategoryService {
@@ -21,7 +22,7 @@ export class CategoryService {
    return await this.categoryRepository.getAll({},{},{limit:query.limit,skip:query.page*query.limit-1})
   }
 
-  async findOne(id: string) {
+  async findOne(id: string | Types.ObjectId) {
   const category= await this.categoryRepository.getOne({_id:id},{},{populate:[{path:"createdBy",select:"name"},{path:"updatedBy",select:"name"}]});
   if(!category){
     throw new NotFoundException("Category not found");

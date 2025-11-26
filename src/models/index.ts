@@ -8,4 +8,8 @@ export * from './customer/customer.repositry';
 export * from './category/category.schema';
 export * from './category/category.repositry';
 export * from './Common/user.repository';
+export * from './brand/brand.schema';
+export * from './brand/brand.repository';
+export * from './product/product.schema';
+export * from './product/product.repository';
 

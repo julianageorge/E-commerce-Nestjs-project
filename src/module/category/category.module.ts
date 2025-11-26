@@ -10,5 +10,6 @@ import { UserMongoModule } from '@shared/index';
   imports:[UserMongoModule,MongooseModule.forFeature([{name:"Category",schema:CategorySchema}])],
   controllers: [CategoryController],
   providers: [CategoryService,CategoryRepositry,CategoryFactoryService,JwtService],
+  exports:[CategoryService,CategoryRepositry,CategoryFactoryService]
 })
 export class CategoryModule {}
