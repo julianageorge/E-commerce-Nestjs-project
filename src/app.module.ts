@@ -12,6 +12,7 @@ import { Admin, AdminSchema, Customer, CustomerSchema, Seller, SellerSchema, Use
 import { CustomerModule } from '@module/customer/customer.module';
 import { CouponsModule } from './module/coupons/coupons.module';
 import { CartModule } from './module/cart/cart.module';
+import { OrderModule } from './module/order/order.module';
 
 @Module({
   imports: [ConfigModule.forRoot({load:[devConfig],isGlobal:true}),
@@ -19,7 +20,7 @@ import { CartModule } from './module/cart/cart.module';
     useFactory:(configService:ConfigService)=>({uri:configService.get('db').url})
   }),
 
-  AuthModule, ProductModule, CategoryModule, BrandModule, CustomerModule, CouponsModule, CartModule],
+  AuthModule, ProductModule, CategoryModule, BrandModule, CustomerModule, CouponsModule, CartModule, OrderModule],
   controllers: [AppController],
   providers: [AppService],
 })

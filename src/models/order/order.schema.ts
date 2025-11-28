@@ -37,6 +37,8 @@ export class OrderProduct{
         couponId:Types.ObjectId;
         @Prop({type:Number,required:true})
         discountAmount:number;
+        @Prop({type:String,required:true})
+        code:string;
         
     }
 
