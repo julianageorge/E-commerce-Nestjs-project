@@ -8,7 +8,7 @@ import { Auth } from '@common/decorator/auth.decorators';
 import { messages } from '@common/constant';
 
 @Controller('coupons')
-@Auth(["Admin","Seller","Customer"])
+@Auth(["Admin","Seller"])
 export class CouponsController {
   constructor(private readonly couponsService: CouponsService,private readonly couponFactoryService:couponFactoryService
   ) {}

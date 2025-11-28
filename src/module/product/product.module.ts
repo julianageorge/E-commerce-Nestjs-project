@@ -15,5 +15,6 @@ import { ProductService } from './product.service';
     {name:Brand.name,schema:BrandSchema}]),CategoryModule,BrandModule],
   controllers: [ProductController],
   providers: [ProductService,ProductFactoryService,JwtService,ProductRepository],
+  exports:[ProductService]
 })
 export class ProductModule {}

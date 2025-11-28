@@ -14,5 +14,7 @@ export * from './product/product.schema';
 export * from './product/product.repository';
 export * from './coupon/coupon.schema';
 export * from './coupon/coupon.repository';
+export * from './cart/cart.schema';
+export * from "./cart/cart.Repository";
 
 
