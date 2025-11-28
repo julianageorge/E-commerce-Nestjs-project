@@ -16,7 +16,7 @@ class AdressDto{
 }
 class CouponDetail{
     @IsMongoId()
-    couponId:string;
+    couponId:Types.ObjectId;
     @IsNumber()
     discountAmount:number;
     @IsString()
@@ -30,6 +30,7 @@ export class CreateOrderDto {
     @IsOptional()
     paymentMethod:PaymentMethod;
     @IsObject()
+    @IsOptional()
     coupon:CouponDetail;
 
     /*products?:{

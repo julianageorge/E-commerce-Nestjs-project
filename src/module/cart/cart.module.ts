@@ -12,5 +12,6 @@ import { ProductModule } from '@module/product/product.module';
   imports:[UserMongoModule,MongooseModule.forFeature([{name:Cart.name,schema:CartSchema}]),ProductModule],
   controllers: [CartController],
   providers: [CartService,CartRepository,JwtService],
+  exports:[CartService]
 })
 export class CartModule {}

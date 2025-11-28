@@ -21,8 +21,6 @@ export class OrderProduct{
         @Prop({type:String,required:true})
         city:string;
         @Prop({type:String,required:true})
-        state:string;
-        @Prop({type:String,required:true})
         country:string;
         @Prop({type:String,required:true})
         code:string;
