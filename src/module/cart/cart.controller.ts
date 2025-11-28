@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/Add_to_cart';
 import { UpdateCartDto } from './dto/update-cart.dto';
@@ -14,6 +14,11 @@ export class CartController {
   async AddToCart(@Body() addToCartDto: AddToCartDto,@User()user:any) {
     const cart=await this.cartService.AddToCart(addToCartDto,user);
     return {message:"Product added to cart",success:true,data:cart}
+  }
+  @Put('remove/:productId')
+  async removeFromCart(@Param('productId')productId:string,@User()user:any){
+    const cart=await this.cartService.removeFromCart(productId,user);
+    return {message:"Product removed from cart",success:true}
   }
 
 }
